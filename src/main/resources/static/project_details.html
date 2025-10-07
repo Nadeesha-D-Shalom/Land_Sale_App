@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details - BuildSmart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="common-styles.css" rel="stylesheet">
+    <style>
+        .navbar-brand { font-weight: bold; font-size: 1.5rem; }
+        .status-badge { font-size: 0.8rem; }
+        .project-summary { background: linear-gradient(135deg, #1359F3 0%, #031230 100%); color: white; }
+        .tab-content { min-height: 400px; }
+        .financial-summary { background-color: #f8f9fa; border-radius: 10px; padding: 1.5rem; }
+    </style>
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="dashboard.html">
+            <i class="bi bi-building"></i> BuildSmart
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link active" href="projects.html">Projects</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="projects.html">Projects</a></li>
+                    <li class="breadcrumb-item active" id="breadcrumbProject">Project Details</li>
+                </ol>
+            </nav>
+            <h2 id="projectTitle"><i class="bi bi-diagram-3 me-2"></i>Project Details</h2>
+        </div>
+    </div>
+
+    <!-- Project Summary -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card project-summary">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3"><h6>Project Name</h6><p class="mb-0"><strong id="projectName"></strong></p></div>
+                        <div class="col-md-3"><h6>Location</h6><p class="mb-0" id="projectLocation"></p></div>
+                        <div class="col-md-2"><h6>Start Date</h6><p class="mb-0" id="startDate"></p></div>
+                        <div class="col-md-2"><h6>End Date</h6><p class="mb-0" id="endDate"></p></div>
+                        <div class="col-md-2"><h6>Status</h6><span class="badge bg-success" id="projectStatus"></span></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-4"><h6>Total Budget</h6><p class="mb-0 h5" id="projectBudget"></p></div>
+                        <div class="col-md-8"><h6>Description</h6><p class="mb-0" id="projectDescription"></p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="row">
+        <div class="col-12">
+            <ul class="nav nav-tabs">
+                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tasks">Tasks</button></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="tasks">
+                    <div class="card border-top-0">
+                        <div class="card-header bg-transparent">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Project Tasks</h5>
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+                                    <i class="bi bi-plus-circle me-1"></i>Add New Task
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Task Name</th>
+                                        <th>Due Date</th>
+                                        <th>Assigned To</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="taskTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Task Modal -->
+<div class="modal fade" id="addTaskModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="taskForm">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-plus-circle me-2"></i>Add New Task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3"><label class="form-label">Task Name</label><input class="form-control" id="taskName" required></div>
+                    <div class="mb-3"><label class="form-label">Description</label><textarea class="form-control" id="taskDescription"></textarea></div>
+                    <div class="mb-3"><label class="form-label">Due Date</label><input type="date" class="form-control" id="dueDate" required></div>
+                    <div class="mb-3"><label class="form-label">Assigned To</label><input class="form-control" id="assignedTo" required></div>
+                    <div class="mb-3"><label class="form-label">Status</label>
+                        <select class="form-select" id="status" required>
+                            <option value="Not Started">Not Started</option>
+                            <option value="Pending">Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer"><button type="submit" class="btn btn-primary">Save Task</button></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Task Modal -->
+<div class="modal fade" id="editTaskModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="editTaskForm">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-pencil me-2"></i>Edit Task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editTaskId">
+                    <div class="mb-3"><label class="form-label">Task Name</label><input class="form-control" id="editTaskName" required></div>
+                    <div class="mb-3"><label class="form-label">Description</label><textarea class="form-control" id="editTaskDescription"></textarea></div>
+                    <div class="mb-3"><label class="form-label">Due Date</label><input type="date" class="form-control" id="editDueDate" required></div>
+                    <div class="mb-3"><label class="form-label">Assigned To</label><input class="form-control" id="editAssignedTo" required></div>
+                    <div class="mb-3"><label class="form-label">Status</label>
+                        <select class="form-select" id="editStatus" required>
+                            <option value="Not Started">Not Started</option>
+                            <option value="Pending">Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer"><button type="submit" class="btn btn-primary">Update Task</button></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-light text-center text-muted py-3 mt-5">
+    <div class="container"><p class="mb-0">&copy; 2024 BuildSmart Construction Management System. All rights reserved.</p></div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const projectId = params.get("id");
+
+    document.addEventListener("DOMContentLoaded", () => {
+        loadProject();
+        loadTasks();
+
+        // Add task
+        document.getElementById("taskForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const task = {
+                taskName: document.getElementById("taskName").value,
+                description: document.getElementById("taskDescription").value,
+                dueDate: document.getElementById("dueDate").value,
+                assignedTo: document.getElementById("assignedTo").value,
+                status: document.getElementById("status").value
+            };
+            fetch(`/api/projects/${projectId}/tasks`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(task)
+            }).then(() => location.reload());
+        });
+
+        // Update task
+        document.getElementById("editTaskForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const taskId = document.getElementById("editTaskId").value;
+            const updatedTask = {
+                taskName: document.getElementById("editTaskName").value,
+                description: document.getElementById("editTaskDescription").value,
+                dueDate: document.getElementById("editDueDate").value,
+                assignedTo: document.getElementById("editAssignedTo").value,
+                status: document.getElementById("editStatus").value
+            };
+            fetch(`/api/projects/${projectId}/tasks/${taskId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedTask)
+            }).then(() => {
+                bootstrap.Modal.getInstance(document.getElementById("editTaskModal")).hide();
+                loadTasks();
+            });
+        });
+    });
+
+    function loadProject() {
+        fetch(`/api/projects/${projectId}`)
+            .then(res => res.json())
+            .then(p => {
+                document.getElementById("breadcrumbProject").innerText = p.projectName;
+                document.getElementById("projectTitle").innerHTML = `<i class="bi bi-diagram-3 me-2"></i>Project Details: ${p.projectName}`;
+                document.getElementById("projectName").innerText = p.projectName;
+                document.getElementById("projectLocation").innerText = p.location;
+                document.getElementById("startDate").innerText = p.startDate;
+                document.getElementById("endDate").innerText = p.endDate;
+                document.getElementById("projectStatus").innerText = p.status;
+                document.getElementById("projectBudget").innerText = "$" + p.budget;
+                document.getElementById("projectDescription").innerText = p.description;
+            });
+    }
+
+    function loadTasks() {
+        fetch(`/api/projects/${projectId}/tasks`)
+            .then(res => res.json())
+            .then(tasks => {
+                const tbody = document.getElementById("taskTableBody");
+                tbody.innerHTML = "";
+                tasks.forEach(t => {
+                    const row = `
+                        <tr>
+                            <td>${t.taskName}</td>
+                            <td>${t.dueDate}</td>
+                            <td>${t.assignedTo}</td>
+                            <td><span class="badge bg-primary status-badge">${t.status}</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-secondary" onclick='editTask(${JSON.stringify(t)})'>
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteTask(${t.id})">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>`;
+                    tbody.innerHTML += row;
+                });
+            });
+    }
+
+    function editTask(task) {
+        document.getElementById("editTaskId").value = task.id;
+        document.getElementById("editTaskName").value = task.taskName;
+        document.getElementById("editTaskDescription").value = task.description;
+        document.getElementById("editDueDate").value = task.dueDate;
+        document.getElementById("editAssignedTo").value = task.assignedTo;
+        document.getElementById("editStatus").value = task.status;
+        new bootstrap.Modal(document.getElementById("editTaskModal")).show();
+    }
+
+    function deleteTask(taskId) {
+        fetch(`/api/projects/${projectId}/tasks/${taskId}`, { method: "DELETE" })
+            .then(() => loadTasks());
+    }
+</script>
+</body>
+</html>
